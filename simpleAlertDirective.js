@@ -1,6 +1,7 @@
 angular.module('simpleAlert')
 .directive('simpleAlert', function(simpleAlertService) {
   return {
+    restrict: 'E',
      scope: { 
        id:'@' 
     },
