@@ -4,7 +4,12 @@ angular.module('simpleAlert')
      scope: { 
        id:'@' 
     },
-    templateUrl: 'alertTemplate.html',
+    template: '<div class="alert alert-{{msg.type}}" ng-show="msg.message.length">'+
+  '<strong ng-show="msg.title.length" ng-bind="msg.title"></strong>'+
+  '<p>{{msg.message}}</p>'+
+  '<button ng-show="msg.cancelLabel.length" class="btn btn-icon" data-ng-click="cancel()">{{msg.cancelLabel}}</button>'+
+  '<button ng-show="msg.okLabel.length" class="btn btn-icon" data-ng-click="clear()">{{msg.okLabel}}</button>'+
+  '</div>',
     link:function($scope){ 
       $scope.msgObj = simpleAlertService.messages;
       
