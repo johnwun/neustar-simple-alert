@@ -4,12 +4,14 @@ angular.module('simpleAlert')
     restrict: 'E',
      scope: { 
        id:'@' 
+       //TODO: add timeout value if auto-timeout
+       //TODO: add dismissable flag
     },
-    template: '<div class="alert alert-{{msg.type}}" ng-show="msg.message.length">'+
-  '<strong ng-show="msg.title.length" ng-bind="msg.title"></strong>'+
+    template: '<div class="alert large alert-{{msg.type}} alert-dismissable" ng-show="msg.message.length">'+
+  '<h3 ng-show="msg.title.length" ng-bind="msg.title"></h3>'+
   '<p>{{msg.message}}</p>'+
-  '<button ng-show="msg.cancelLabel.length" class="btn btn-icon" data-ng-click="cancel()">{{msg.cancelLabel}}</button>'+
-  '<button ng-show="msg.okLabel.length" class="btn btn-icon" data-ng-click="clear()">{{msg.okLabel}}</button>'+
+  '<button ng-show="msg.cancelLabel.length" class="btn btn-default" data-ng-click="cancel()">{{msg.cancelLabel}}</button>'+
+  '<button ng-show="msg.okLabel.length" class="btn btn-primary" data-ng-click="clear()">{{msg.okLabel}}</button>'+
   '</div>',
     link:function($scope){ 
       $scope.msgObj = simpleAlertService.messages;
