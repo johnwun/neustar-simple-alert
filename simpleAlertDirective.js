@@ -11,7 +11,7 @@ angular.module('simpleAlert')
   '<h3 ng-show="msg.title.length" ng-bind="msg.title"></h3>'+
   '<p>{{msg.message}}</p>'+
   '<button ng-show="msg.cancelLabel.length" class="btn btn-default" data-ng-click="cancel()">{{msg.cancelLabel}}</button>'+
-  '<button ng-show="msg.okLabel.length" class="btn btn-primary" data-ng-click="clear()">{{msg.okLabel}}</button>'+
+  '<button ng-show="msg.okLabel.length" class="btn btn-{{msg.type}}" data-ng-click="clear()">{{msg.okLabel}}</button>'+
   '</div>',
     link:function($scope){ 
       $scope.msgObj = simpleAlertService.messages;
