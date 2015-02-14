@@ -20,6 +20,7 @@ msg.service('simpleAlertService', function() {
       title:undefined,
 
       closeIcon:false,
+      clickToClose:false
     }
   }; 
    

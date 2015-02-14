@@ -5,9 +5,8 @@ angular.module('simpleAlert')
      scope: { 
        id:'@' 
        //TODO: add timeout value if auto-timeout
-       //TODO: add dismissable flag
     },
-    template: '<div class="alert large alert-{{msg.type}} alert-dismissable" ng-show="msg.message.length">'+
+    template: '<div class="data-ng-click="clickToClose()" alert large alert-{{msg.type}} alert-dismissable" ng-show="msg.message.length">'+
   '<button class="close" data-dismiss="alert" data-ng-click="clear()" ng-show="msg.closeIcon">'+
   '<span class="nuxicon nuxicon-close"></span>'+
   '</button>'+
@@ -27,7 +26,11 @@ angular.module('simpleAlert')
         $scope.msg = newVal[$scope.id];
         }
       },true);
-     
+
+      $scope.clickToClose = function(){
+        if($scope.msg.clickToClose){$scope.clear();}
+      };
+
       $scope.clear = function(){ 
         //removes the  message  and trigger the success handler
         simpleAlertService.clearById($scope.id);  
