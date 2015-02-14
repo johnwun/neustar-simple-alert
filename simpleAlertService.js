@@ -17,7 +17,9 @@ msg.service('simpleAlertService', function() {
       cancelLabel:'',
       cancelCallback:angular.noop,
       cancelCallbackParamsArray:[undefined],
-      title:undefined
+      title:undefined,
+
+      closeIcon:false,
     }
   }; 
    

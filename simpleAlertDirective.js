@@ -8,6 +8,9 @@ angular.module('simpleAlert')
        //TODO: add dismissable flag
     },
     template: '<div class="alert large alert-{{msg.type}} alert-dismissable" ng-show="msg.message.length">'+
+  '<button class="close" data-dismiss="alert" data-ng-click="clear()" ng-show="msg.closeIcon">'+
+  '<span class="nuxicon nuxicon-close"></span>'+
+  '</button>'+
   '<h3 ng-show="msg.title.length" ng-bind="msg.title"></h3>'+
   '<p>{{msg.message}}</p>'+
   '<button ng-show="msg.cancelLabel.length" class="btn btn-default" data-ng-click="cancel()">{{msg.cancelLabel}}</button>'+
