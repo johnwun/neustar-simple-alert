@@ -9,7 +9,7 @@ msg.service('simpleAlertService', function() {
       message:'', 
       
       //OK is optional
-      okLabel:'OK',
+      okLabel:'',
       callback:angular.noop,
       callbackParamsArray:[undefined],
       
@@ -19,7 +19,7 @@ msg.service('simpleAlertService', function() {
       cancelCallbackParamsArray:[undefined],
       title:undefined,
 
-      closeIcon:false,
+      closeIcon:true,
       clickToClose:false
     }
   }; 
