@@ -12,3 +12,4 @@ Features:
 - Can be used anywhere in an angular app, regardless of scope, just import the service.
 - no external dependencies.
 - fully tested (coming soon)
+- [view Demo on Plunker](http://embed.plnkr.co/RtA4MsPKnvFmz3f6eI3r/ "View Live Demo Here")

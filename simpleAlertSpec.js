@@ -1,28 +1,15 @@
 describe('simpleAlert: Testing', function() {
-  var defaultElement, customElement, scope, simpleAlertService,
+  var defaultElement, customElement, scope, simpleAlertFactory,
     complexTestData, simpleTestData,
     simpleTitle, simpleText,simpleFunction,
     successParams,failParams;
   
   // create a default app (container)
   beforeEach(module('simpleAlert'));
-  
-  // TODO: this is a temporary hack for testing in plnkr. 
-  // Use ng-html2js in prod.
-  beforeEach(inject(function($templateCache) {
-    var alertTemplate = null;
-    var req = new XMLHttpRequest();
-    req.onload = function() {
-        alertTemplate = this.responseText;
-    };
-    req.open("get", "alertTemplate.html", false);
-    req.send();
-    $templateCache.put("alertTemplate.html", alertTemplate);
-}));
  
-  beforeEach(inject(function($rootScope, $compile, _simpleAlertService_) {
+  beforeEach(inject(function($rootScope, $compile, _simpleAlertFactory_) {
     scope = $rootScope.$new();
-    simpleAlertService = _simpleAlertService_;
+    simpleAlertFactory = _simpleAlertFactory_;
     defaultElement =
         ' <data-simple-alert></data-simple-alert>';
         
@@ -44,17 +31,20 @@ describe('simpleAlert: Testing', function() {
     simpleTestData = {message:simpleText};
     
     complexTestData = { 
-      id:'test',
-      type:"info",
-      title:"Warning:",
-      message:'Complex example demo text', 
-      cancelLabel:"Cancel",
-      cancelCallback:simpleFunction,
-      cancelCallbackParamsArray:failParams, 
-      okLabel:"Continue",
-      callback:simpleFunction,
-      callbackParamsArray:successParams
-    };
+      id : 'test', 
+      type : 'info', 
+      message : 'Complex example demo text', 
+      okLabel : 'Continue', 
+      callback : Function, 
+      callbackParamsArray : [ 1, 2, 3 ], 
+      cancelLabel : 'Cancel', 
+      cancelCallback : Function, cancelCallbackParamsArray : [ -1, -2, -3 ], 
+      title : undefined, 
+      timeout:0,
+      classes: "",
+      closeIcon : true, 
+      closeIconClasses:'glyphicon glyphicon-remove-sign',
+      clickToClose : false };
   }));
   
   describe('an empty default simple alert', function() {
@@ -72,59 +62,59 @@ describe('simpleAlert: Testing', function() {
 
   describe('a populated default simple alert with minimal configuration', function() {
     
-    it("should not have a message value defined before service call", function() {
+    it("should not have a message value defined before factory call", function() {
       var isolated = defaultElement.isolateScope();  
      expect(isolated.msgObj[undefined]).toBeUndefined(); 
     });
     
-    it("should have a message value defined after service call", function() { 
-      simpleAlertService.show(simpleTestData);
+    it("should have a message value defined after factory call", function() { 
+      simpleAlertFactory.show(simpleTestData);
       var isolated = defaultElement.isolateScope();  
       scope.$digest();
       expect(isolated.msgObj[undefined].message).toBe(simpleText); 
     });
     
     it("should not bleed data into a custom alert scope", function() { 
-      simpleAlertService.show(simpleTestData);
+      simpleAlertFactory.show(simpleTestData);
       var isolated = defaultElement.isolateScope();  
       scope.$digest();
       expect(isolated.msgObj['test']).toBeUndefined(); 
     });
-   /* 
+    
     it("should not have a message value defined after clear", function() {
-        simpleAlertService.show(simpleTestData);
-        var isolated = defaultElement.isolateScope();  
+        simpleAlertFactory.show(simpleTestData);
+        var isolated = defaultElement.isolateScope(); 
+  
         scope.$digest();
-        expect(isolated.msgObj[undefined].message).toBe(simpleText); 
-        scope.clear();
-        scope.$digest();
-        expect(isolated.msgObj[undefined]).toBeUndefined(); 
-    });*/
+        expect(isolated.msgObj).toBeDefined(); 
+        simpleAlertFactory.clearAll();
+        scope.$digest(); 
+        expect(isolated.msgObj[undefined]).toEqual({}); //.toBeUndefined(); 
+    });
     
   });
   
   describe('a populated default simple alert with complex configuration', function() {
     
-    it("should not have a message value defined before service call", function() {
+    it("should not have a message value defined before factory call", function() {
       var isolated = customElement.isolateScope();  
      expect(isolated.msgObj['test']).toBeUndefined(); 
     });
     
-    it("should have all custom values defined after service call", function() { 
-      simpleAlertService.show(complexTestData);
+    it("should have all custom values defined after factory call", function() { 
+      simpleAlertFactory.show(complexTestData);
       var isolated = customElement.isolateScope();  
       scope.$digest();
       expect(isolated.msgObj['test']).toEqual(complexTestData); 
     });
     
     it("should not bleed data into the default alert scope", function() { 
-      simpleAlertService.show(complexTestData);
+      simpleAlertFactory.show(complexTestData);
       var isolated = defaultElement.isolateScope();  
       scope.$digest();
       expect(isolated.msgObj[undefined]).toBeUndefined(); 
     });
-     // spyOn(complexTestData, 'callback'); expect to have been called with...
-     // 
+
   });
   describe('callback handling', function() {})
   describe('clearing a simple alert', function() {})
