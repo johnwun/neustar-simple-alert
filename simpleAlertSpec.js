@@ -6,6 +6,19 @@ describe('simpleAlert: Testing', function() {
   
   // create a default app (container)
   beforeEach(module('simpleAlert'));
+  
+  // TODO: this is a temporary hack for testing in plnkr. 
+  // Use ng-html2js in prod.
+  beforeEach(inject(function($templateCache) {
+    var alertTemplate = null;
+    var req = new XMLHttpRequest();
+    req.onload = function() {
+        alertTemplate = this.responseText;
+    };
+//    req.open("get", "alertTemplate.html", false);
+//    req.send();
+//    $templateCache.put("alertTemplate.html", alertTemplate);
+}));
  
   beforeEach(inject(function($rootScope, $compile, _simpleAlertFactory_) {
     scope = $rootScope.$new();
@@ -114,7 +127,8 @@ describe('simpleAlert: Testing', function() {
       scope.$digest();
       expect(isolated.msgObj[undefined]).toBeUndefined(); 
     });
-
+     // spyOn(complexTestData, 'callback'); expect to have been called with...
+     // 
   });
   describe('callback handling', function() {})
   describe('clearing a simple alert', function() {})
