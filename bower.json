@@ -1,0 +1,12 @@
+{
+    "name"      : "neustar-simple-alert",
+    "version"   : "v1.0.0",
+    "main"      : [
+        "simpleAlert.js"
+    ],
+    "ignore"    : [
+        ".git",
+        ".gitignore",
+        "README.md"
+    ]
+}
