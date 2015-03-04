@@ -1,5 +1,5 @@
 angular.module('simpleAlert', [])
-  .factory('simpleAlertFactory', function($timeout,$sce) {
+  .factory('simpleAlertFactory', function($interval,$sce) {
     var timeoutVar;
     var internal = {
       messages: {},
@@ -36,9 +36,9 @@ angular.module('simpleAlert', [])
     var clearById = function(id) {
       internal.messages[id].callback.apply(this, internal.messages[id].callbackParamsArray);
       internal.messages[id] = {};
-      timeoutVar = $timeout(function() {
+      timeoutVar = $interval(function() {
         delete internal.messages[id];
-      }, 0);
+      }, 0,1);
     };
 
     var removeById = function(id) {
@@ -50,12 +50,12 @@ angular.module('simpleAlert', [])
         internal.messages[key] = {};
       });
 
-      $timeout(function() {
+      $interval(function() {
         angular.forEach(internal.messages, function(value, key) {
           delete internal.messages[key];
         });
 
-      }, 0);
+      }, 0,1);
 
 
     };
@@ -64,9 +64,9 @@ angular.module('simpleAlert', [])
       internal.messages[id].cancelCallback.apply(this, internal.messages[id].cancelCallbackParamsArray);
       internal.messages[id] = {};
       // delayed delete so everything has a chance to execute.
-      timeoutVar = $timeout(function() {
+      timeoutVar = $interval(function() {
         delete internal.messages[id];
-      }, 0);
+      }, 0,1);
 
     };
 
@@ -83,7 +83,7 @@ angular.module('simpleAlert', [])
       messages: internal.messages
     };
 
-  }).directive('simpleAlert', function($timeout, simpleAlertFactory,$sce) {
+  }).directive('simpleAlert', function($interval, simpleAlertFactory,$sce) {
     return {
       restrict: 'E',
       scope: {
@@ -105,16 +105,16 @@ angular.module('simpleAlert', [])
 
         // deep watch - can we avoid?  contains all named alert instances currently in play.
         $scope.$watch('msgObj', function(newVal, oldVal) {
-          $timeout.cancel(timeoutVar);
+          $interval.cancel(timeoutVar);
           // The id here is the key so newVal[id] is an alert config object
           if (newVal[$scope.id] && !angular.equals(newVal[$scope.id], oldVal[$scope.id])) {
             $scope.msg = newVal[$scope.id];
 
             // add a timeout if 'timeout exists on msgObj'
             if (newVal[$scope.id].timeout) {
-              timeoutVar = $timeout(function() {
+              timeoutVar = $interval(function() {
                 $scope.clear();
-              }, +newVal[$scope.id].timeout);
+              }, +newVal[$scope.id].timeout,1);
             }
           }
         }, true);
@@ -129,7 +129,7 @@ angular.module('simpleAlert', [])
         }
         
         $scope.clear = function() {
-          $timeout.cancel(timeoutVar);
+          $interval.cancel(timeoutVar);
           //removes the  message  and trigger the success handler
           simpleAlertFactory.clearById($scope.id);
 
@@ -141,7 +141,7 @@ angular.module('simpleAlert', [])
         };
 
         $scope.$on('$destroy', function() {
-          $timeout.cancel(timeoutVar);
+          $interval.cancel(timeoutVar);
           simpleAlertFactory.removeById($scope.id);
         });
 
