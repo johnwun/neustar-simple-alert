@@ -34,6 +34,7 @@ angular.module('simpleAlert', [])
     };
 
     var clearById = function(id) {
+      $interval.cancel(timeoutVar);
       internal.messages[id].callback.apply(this, internal.messages[id].callbackParamsArray);
       internal.messages[id] = {};
       timeoutVar = $interval(function() {
@@ -61,6 +62,7 @@ angular.module('simpleAlert', [])
     };
 
     var cancelById = function(id) {
+       $interval.cancel(timeoutVar);
       internal.messages[id].cancelCallback.apply(this, internal.messages[id].cancelCallbackParamsArray);
       internal.messages[id] = {};
       // delayed delete so everything has a chance to execute.
