@@ -1,11 +1,11 @@
 angular.module('simpleAlert', [])
-  .factory('simpleAlertFactory', function($timeout) {
+  .factory('simpleAlertFactory', function($timeout,$sce) {
     var timeoutVar;
     var internal = {
       messages: {},
       default: {
         id: undefined,
-        type: 'warning',
+        type: 'warning', 
         message: '',
         defaultClasses: '', // use this to set site-wide customizations
         // custom
@@ -83,7 +83,7 @@ angular.module('simpleAlert', [])
       messages: internal.messages
     };
 
-  }).directive('simpleAlert', function($timeout, simpleAlertFactory) {
+  }).directive('simpleAlert', function($timeout, simpleAlertFactory,$sce) {
     return {
       restrict: 'E',
       scope: {
@@ -95,7 +95,7 @@ angular.module('simpleAlert', [])
         '<span class="{{msg.closeIconClasses}}"></span>' +
         '</button>' +
         '<h3 ng-show="msg.title.length" ng-bind="msg.title"></h3>' +
-        '<p>{{msg.message}}</p>' +
+        '<p ng-bind-html="makeHTML(msg.message)"></p>' +
         '<button ng-show="msg.cancelLabel.length" class="btn btn-default" data-ng-click="cancel()">{{msg.cancelLabel}}</button>' +
         '<button ng-show="msg.okLabel.length" class="btn btn-{{msg.type}}" data-ng-click="clear()">{{msg.okLabel}}</button>' +
         '</div>',
@@ -124,7 +124,10 @@ angular.module('simpleAlert', [])
             $scope.clear();
           }
         };
-
+        $scope.makeHTML = function(text){
+          return $sce.trustAsHtml(text);
+        }
+        
         $scope.clear = function() {
           $timeout.cancel(timeoutVar);
           //removes the  message  and trigger the success handler
