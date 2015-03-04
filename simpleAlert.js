@@ -93,7 +93,7 @@ angular.module('simpleAlert', [])
         //TODO: add timeout value if auto-timeout
       },
       template: '<div data-ng-click="clickToClose()" class="alert alert-{{msg.type}} alert-dismissable {{msg.defaultClasses}} {{msg.classes}}" ng-show="msg.message.length">' +
-        '<button class="close" data-dismiss="alert" data-ng-click="clear()" ng-show="msg.closeIcon">' +
+        '<button class="close" data-ng-click="clear()" ng-show="msg.closeIcon">' +
         '<span class="{{msg.closeIconClasses}}"></span>' +
         '</button>' +
         '<h3 ng-show="msg.title.length" ng-bind="msg.title"></h3>' +
