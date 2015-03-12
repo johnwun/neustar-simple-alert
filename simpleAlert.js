@@ -72,9 +72,18 @@ angular.module('simpleAlert', [])
 
     };
 
-    var setDefault = function(key, newDefault) {
-      internal.default[key] = newDefault;
+    // setDefault() has two signatures:
+    // if passed a key value pair, then it will update that element
+    // otherwise it will expect key to be a new default object, 
+    // and extend the existing default object with that
+    var setDefault = function(keyOrObject, newDefault) {
+      if(newDefault){
+      internal.default[keyOrObject] = newDefault;
+      } else if(keyOrObject){
+        angular.extend(internal.default, keyOrObject)
+      }
     };
+    
     return {
       setDefault: setDefault,
       show: show,
