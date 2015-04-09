@@ -3,6 +3,7 @@ angular.module('simpleAlert', [])
     var timeoutVar;
     var internal = {
       messages: {},
+      // NOTE: Below are all customizable parameters
       default: {
         id: undefined,
         type: 'warning', 
