@@ -1,0 +1,19 @@
+{
+  "name": "simpleAlert",
+  "version": "0.0.1",
+  "description": "angular based simple alert directive",
+  "keywords": [
+    "angular",
+    "alert",
+    "messaging"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/johnwun/neustar-simple-alert/"
+  },
+  "main": "index.js",
+  "scripts": {
+  },
+  "author": "John Wundes <johnw@neustar.biz>",
+  "license": "MIT"
+}
